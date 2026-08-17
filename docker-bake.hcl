@@ -7,7 +7,7 @@
 
 variable "VERSION" {
   # Keep in sync with version.txt. Override at build time: VERSION=1.4.0 docker buildx bake
-  default = "1.2.1"
+  default = "1.4.0"
 }
 
 variable "IMAGE_NAME" {
