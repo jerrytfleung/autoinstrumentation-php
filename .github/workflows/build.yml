@@ -47,4 +47,4 @@ jobs:
             final.args.version=${{ steps.meta.outputs.tag }}
         env:
           TAG: ${{ steps.meta.outputs.tag }}
-          VERSION: ${{ steps.meta.outputs.tag }}
+          # VERSION: ${{ steps.meta.outputs.tag }}
