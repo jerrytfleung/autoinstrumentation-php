@@ -11,7 +11,7 @@ ARG THREAD=non-zts
 WORKDIR /build/${LIBC}/${THREAD}
 
 RUN if [ "${LIBC}" = "musl" ]; then \
-      apk add autoconf build-base libtool pkgconfig; \
+      apk add autoconf build-base libtool pkgconfig unzip; \
     else \
       apt-get update && apt-get install -y zlib1g-dev libzip-dev unzip && docker-php-ext-install zip; \
     fi \
