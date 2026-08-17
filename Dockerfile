@@ -10,10 +10,9 @@ ARG THREAD=non-zts
 
 WORKDIR /build/${LIBC}/${THREAD}
 
-RUN if [ "${LIBC}" = "musl" ]; then \
-      apk add autoconf build-base; \
-    fi \
-    && pecl install opentelemetry-${version} \
+RUN curl -fsSL https://github.com/php/pie/releases/latest/download/pie.phar -o /usr/local/bin/pie \
+    && chmod +x /usr/local/bin/pie \
+    && pie install open-telemetry/ext-opentelemetry:${version} --auto-install-build-tools \
     && cp /usr/local/lib/php/extensions/no-debug-${THREAD}-*/opentelemetry.so .
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
