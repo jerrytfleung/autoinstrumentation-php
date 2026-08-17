@@ -20,6 +20,6 @@ RUN if [ "${LIBC}" = "musl" ]; then \
     && pie install open-telemetry/ext-opentelemetry:${version} \
     && cp /usr/local/lib/php/extensions/no-debug-${THREAD}-*/opentelemetry.so .
 
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY composer.json .
 RUN composer install --ignore-platform-reqs
