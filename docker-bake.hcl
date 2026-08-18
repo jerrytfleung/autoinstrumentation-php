@@ -165,7 +165,7 @@ target "build-zts-musl-85" {
 target "final" {
   dockerfile = "Dockerfile.final"
   context    = "."
-  platforms  = ["linux/amd64","linux/arm64"]
+  platforms  = ["linux/amd64","linux/arm64","linux/s390x","linux/ppc64le"]
   tags       = ["${IMAGE_NAME}:${TAG}"]
   contexts = {
     build-non-zts-81      = "target:build-non-zts-81"
