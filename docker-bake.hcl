@@ -3,15 +3,15 @@
 # Build the final image:        docker buildx bake
 # Build and push:               docker buildx bake --push
 # Build a single variant:       docker buildx bake build-non-zts-81
-# Override version or tag:      VERSION=1.4.0 TAG=1.4.0 docker buildx bake
+# Override opentelemetry version or tag:      OPENTELEMETRY_VERSION=1.4.0 TAG=1.4.0 docker buildx bake
 
-variable "VERSION" {
-  # Keep in sync with version.txt. Override at build time: VERSION=1.4.0 docker buildx bake
+variable "OPENTELEMETRY_VERSION" {
+  # Keep in sync with version.txt. Override at build time: OPENTELEMETRY_VERSION=1.4.0 docker buildx bake
   default = "1.4.0"
 }
 
 variable "IMAGE_NAME" {
-  default = "ghcr.io/jerrytfleung/autoinstrumentation-php"
+  default = "autoinstrumentation-php"
 }
 
 variable "TAG" {
@@ -61,7 +61,7 @@ target "_build-base" {
   dockerfile = "Dockerfile"
   target     = "builder"
   context    = "."
-  args       = { version = VERSION }
+  args       = { OPENTELEMETRY_VERSION = OPENTELEMETRY_VERSION }
   output     = []
 }
 
@@ -165,7 +165,7 @@ target "build-zts-musl-85" {
 target "final" {
   dockerfile = "Dockerfile.final"
   context    = "."
-  tags       = ["${IMAGE_NAME}:${TAG}", "${IMAGE_NAME}:${VERSION}"]
+  tags       = ["${IMAGE_NAME}:${TAG}"]
   contexts = {
     build-non-zts-81      = "target:build-non-zts-81"
     build-zts-81          = "target:build-zts-81"
