@@ -11,7 +11,7 @@ variable "VERSION" {
 }
 
 variable "IMAGE_NAME" {
-  default = "jerrytfleung/autoinstrumentation-php"
+  default = "ghcr.io/jerrytfleung/autoinstrumentation-php"
 }
 
 variable "TAG" {
