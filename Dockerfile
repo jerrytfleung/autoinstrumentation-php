@@ -26,6 +26,6 @@ RUN if [ "${LIBC}" = "musl" ]; then \
     && cp /usr/local/lib/php/extensions/no-debug-${THREAD}-*/opentelemetry.so .
 
 WORKDIR /build/${LIBC}/${THREAD}/pkg
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2@sha256:16988c546890b7078a7a1415f535caab8f25fd6158de40a99d35dc60c11a77fb /usr/bin/composer /usr/bin/composer
 COPY composer.json .
 RUN composer install --ignore-platform-reqs
