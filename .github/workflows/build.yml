@@ -43,8 +43,6 @@ jobs:
         uses: docker/bake-action@v6
         with:
           push: ${{ github.event_name != 'pull_request' }}
-          set: |
-            final.args.version=${{ steps.meta.outputs.tag }}
         env:
           TAG: ${{ steps.meta.outputs.tag }}
-          # VERSION: ${{ steps.meta.outputs.tag }}
+          VERSION: ${{ startsWith(github.ref, 'refs/tags/') && steps.meta.outputs.tag || '1.4.0' }}
