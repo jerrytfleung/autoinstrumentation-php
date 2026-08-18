@@ -26,11 +26,9 @@ Build and push:
 docker buildx bake --push
 ```
 
-Build a single variant:
+Build extension artifacts for a single variant (intermediate build target; does not build/tag the final image):
 
-```bash
-docker buildx bake build-non-zts-81
-```
+    docker buildx bake build-non-zts-81
 
 Override the release version and tag:
 
