@@ -49,5 +49,5 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
         env:
           IMAGE_NAME: "ghcr.io/${{ github.repository }}"
-          TAG: ${{ steps.meta.outputs.tag }} || 'latest'
-          OPENTELEMETRY_VERSION: ${{ steps.meta.outputs.tag }} || '1.4.0'
+          TAG: ${{ steps.meta.outputs.tag || 'latest' }}
+          OPENTELEMETRY_VERSION: ${{ steps.meta.outputs.tag || '1.4.0' }}
