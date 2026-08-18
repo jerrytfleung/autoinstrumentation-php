@@ -16,9 +16,9 @@ ghcr.io/jerrytfleung/autoinstrumentation-php
 
 ## Build locally
 
-```bash
-docker buildx bake
-```
+The `final` target is configured as a multi-platform build (see `docker-bake.hcl`), so depending on your Buildx driver you may need to select a single platform and/or set an output (e.g., `--load`) to get a runnable local image.
+
+    docker buildx bake
 
 Build and push:
 
