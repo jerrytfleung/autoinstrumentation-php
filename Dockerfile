@@ -12,7 +12,7 @@ ARG PIE_SHA256
 ARG LIBC=glibc
 ARG THREAD=non-zts
 
-WORKDIR /build/${LIBC}/${THREAD}
+WORKDIR /build/${LIBC}/${THREAD}/ext
 
 RUN if [ "${LIBC}" = "musl" ]; then \
       apk add autoconf build-base libtool pkgconfig unzip; \
@@ -25,6 +25,7 @@ RUN if [ "${LIBC}" = "musl" ]; then \
     && pie install open-telemetry/ext-opentelemetry:${version} \
     && cp /usr/local/lib/php/extensions/no-debug-${THREAD}-*/opentelemetry.so .
 
+WORKDIR /build/${LIBC}/${THREAD}/pkg
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY composer.json .
 RUN composer install --ignore-platform-reqs
