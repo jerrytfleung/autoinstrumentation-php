@@ -46,6 +46,8 @@ git push origin 1.0.0
 ```
 
 GitHub Actions builds the image and pushes it to GHCR.
+Its variant job matrix is generated from `docker buildx bake -f docker-bake.hcl final --print`,
+using the resolved `build-*` targets rather than a separate hard-coded list.
 
 ## Files
 

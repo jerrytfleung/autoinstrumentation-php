@@ -12,32 +12,37 @@ on:
       - main
 
 jobs:
+  prepare-matrix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Generate variant matrix
+        id: matrix
+        shell: bash
+        run: |
+          matrix=$(docker buildx bake -f docker-bake.hcl final --print | jq -ce '
+            {target: [.target | keys[] | select(startswith("build-"))]}
+            | if (.target | length) == 0 then error("No build variant targets found") else . end
+          ')
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
   build-variants:
+    needs: prepare-matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        target:
-          - build-non-zts-81
-          - build-zts-81
-          - build-non-zts-musl-81
-          - build-zts-musl-81
-          - build-non-zts-82
-          - build-zts-82
-          - build-non-zts-musl-82
-          - build-zts-musl-82
-          - build-non-zts-83
-          - build-zts-83
-          - build-non-zts-musl-83
-          - build-zts-musl-83
-          - build-non-zts-84
-          - build-zts-84
-          - build-non-zts-musl-84
-          - build-zts-musl-84
-          - build-non-zts-85
-          - build-zts-85
-          - build-non-zts-musl-85
-          - build-zts-musl-85
+      matrix: ${{ fromJSON(needs.prepare-matrix.outputs.matrix) }}
     permissions:
       contents: read
 
