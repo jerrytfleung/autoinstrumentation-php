@@ -61,6 +61,7 @@ target "_build-base" {
   dockerfile = "Dockerfile"
   target     = "builder"
   context    = "."
+  platforms  = ["linux/amd64","linux/arm64","linux/s390x","linux/ppc64le"]
   args       = { OPENTELEMETRY_VERSION = OPENTELEMETRY_VERSION }
   output     = []
 }
