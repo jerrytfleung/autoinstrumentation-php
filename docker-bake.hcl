@@ -58,7 +58,7 @@ variable "PHP_85_MUSL_ZTS"     { default = "php:8.5-zts-alpine@sha256:6b2a31dfcf
 # Shared platform configuration — keep build and final targets aligned.
 # ---------------------------------------------------------------------------
 target "_platform-base" {
-  platforms = ["linux/amd64","linux/arm64","linux/s390x","linux/ppc64le"]
+  platforms = ["linux/amd64"] // ["linux/amd64","linux/arm64","linux/s390x","linux/ppc64le"]
 }
 
 # ---------------------------------------------------------------------------
