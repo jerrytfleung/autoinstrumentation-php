@@ -90,10 +90,35 @@ jobs:
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: build-*
-          path: artifacts
+          path: temp-artifacts
 
-      - name: list
-        run: ls -R
+      - name: Restructure OCI Layout Paths
+        run: |
+          mkdir -p artifacts
+          echo "==== 開始重組 OCI 目錄 ===="
+            
+          # 尋找所有下載檔案中包含 OCI 核心 index.json 的目錄
+          find temp-artifacts -name "index.json" | while read -r index_path; do
+            # 取得該 index.json 所屬的實際 OCI 根目錄
+            oci_dir=$(dirname "$index_path")
+  
+            # 從路徑中精準提取出變體名稱 (例如: build-zts-musl-85)
+            variant_name=$(echo "$oci_dir" | grep -o -E 'build-[a-zA-Z0-9_-]+' || echo "unknown")
+
+            # 如果正規表達式匹配不到，就直接拿該 OCI 目錄的資料夾名稱當變體名
+            if [ "$variant_name" = "unknown" ]; then
+              variant_name=$(basename "$oci_dir")
+            fi
+
+            echo "找到變體: $variant_name，正在複製還原至 artifacts/$variant_name"
+
+            # 建立乾淨的目標路徑，並將內容直接攤平複製進去
+            mkdir -p "artifacts/$variant_name"
+            cp -r "$oci_dir"/* "artifacts/$variant_name/"
+          done
+           
+          echo "==== 檢查最終檢驗目錄結構 ===="
+          ls -R artifacts
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
