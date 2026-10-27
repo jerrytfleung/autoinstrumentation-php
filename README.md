@@ -2,12 +2,6 @@
 
 Builds the OpenTelemetry PHP autoinstrumentation image published to GitHub Container Registry.
 
-## Image
-
-```text
-ghcr.io/jerrytfleung/autoinstrumentation-php
-```
-
 ## What it builds
 
 - PHP 8.1, 8.2, 8.3, 8.4, and 8.5
