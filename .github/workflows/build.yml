@@ -117,6 +117,9 @@ jobs:
             echo "tag=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
           fi
 
+      - name: Read revision
+        run: echo "REVISION=$(cat revision.txt)" >> $GITHUB_ENV
+
       - name: Assemble and push final image
         uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
         with:
@@ -128,5 +131,5 @@ jobs:
           push: true
         env:
           IMAGE_NAME: "ghcr.io/${{ github.repository }}"
-          TAG: ${{ steps.meta.outputs.tag || 'latest' }}
+          TAG: ${{ steps.meta.outputs.tag && format('{0}-{1}', steps.meta.outputs.tag, env.REVISION) || 'latest' }}
           OPENTELEMETRY_VERSION: '1.4.2'
