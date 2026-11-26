@@ -40,13 +40,12 @@ git push origin 1.0.0
 ```
 
 GitHub Actions builds the image and pushes it to GHCR.
-Its variant job matrix is generated from `docker buildx bake -f docker-bake.hcl final --print`,
-using the resolved `build-*` targets rather than a separate hard-coded list.
 
 ## Files
 
 - `Dockerfile` builds each PHP/platform variant
 - `Dockerfile.final` assembles the release image
 - `docker-bake.hcl` defines the matrix and image tags
+- `docker-bake.ci.hcl` configures CI artifact exports and local OCI layout assembly
 - `.github/workflows/build.yml` runs CI builds and pushes
 - `.github/dependabot.yml` keeps dependencies updated
